@@ -1,0 +1,24 @@
+.textarea{
+    margin: auto;
+    border: 1px black solid;
+    background-color: rgb(208, 195, 184);
+    margin-top: 30px;
+    padding: 20px;
+    width: 70%;
+    font-size: x-large;
+}
+
+body{
+    background-image: url("./library.png");
+    background-attachment: fixed;
+}
+
+.content {
+    padding: 16px;
+}
+
+.subject_record{
+    height: 200px;
+    width: 600px;
+    text-align: top;
+}
