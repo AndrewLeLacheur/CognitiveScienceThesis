@@ -10,9 +10,7 @@ format: html
 library(dplyr)
 library(tidyr)
 library(ggplot2)
-#library(osfr)
 library(jsonlite)
-#library(purrr)
 library(rstatix)
 ```
 
@@ -20,17 +18,9 @@ library(rstatix)
 #| label: Load data into data frame
 #| include: false
 data <- read.csv('sampledata.csv')
-
-data$minutes[9] <- 60.0
-data$minutes <- as.double(data$minutes)
-data <- data[-c(23,24),]
-data <- data |>
-  select(subject_id, minutes, wordcount, score, correct, max_early_theory, uncertainty, cognition, familiarity)
-```
-
-```{r}
-#sample_data <- data |>
-#    filter(subject_id < 6)
+expl_data <- read.csv('expldata.csv')
+expl_data <- expl_data |> select(-score)
+data <- merge(data, expl_data, "subject_id")
 ```
 
 T test prep:
@@ -86,111 +76,49 @@ ggplot(data = data, aes(x = cognition, score)) + geom_point()
 ```
 
 
-
-
-
 EXPLORATORY
 
 ```{r}
-ggplot(data = data, aes(x = wordcount, uncertainty)) + geom_point()
-ggplot(data = data, aes(x = minutes, uncertainty)) + geom_point()
-ggplot(data = data, aes(x = minutes, wordcount)) + geom_point()
-ggplot(data = data, aes(x = cognition, uncertainty)) + geom_point()
-ggplot(data = data, aes(x = cognition, max_early_theory)) + geom_point()
-ggplot(data = data, aes(x = cognition, max_early_theory)) + geom_point()
-
-ggplot(data = data, aes(x = familiarity, max_early_theory)) + geom_point()
-ggplot(data = data, aes(x = familiarity, cognition)) + geom_point()
-ggplot(data = data, aes(x = familiarity, uncertainty)) + geom_point()
-ggplot(data = data, aes(x = familiarity, score)) + geom_point()
-ggplot(data = data, aes(x = familiarity, wordcount)) + geom_point()
-ggplot(data = data, aes(x = familiarity, minutes)) + geom_point()
-
-```
-
-
-
-
-
-
-
-
-EXPLORATORY
-
-
-```{r}
-expl_data <- read.csv('expldata.csv')
-expl_data <- expl_data[-c(23,24),]
+#(subject_id-10)/100 is to add consistent jitter
+ggplot(data = data, aes(x = timeline+((subject_id-10)/100), y = score)) + geom_point() 
+ggplot(data = data, aes(x = note_drop+((subject_id-10)/100), score)) + geom_point()
+ggplot(data = data, aes(x = rolling+((subject_id-10)/100), score)) + geom_point()
+ggplot(data = data, aes(x = note_update+((subject_id-10)/100), score)) + geom_point()
+ggplot(data = data, aes(x = accident..0.1.2.+((subject_id-10)/100), score)) + geom_point()
+ggplot(data = data, aes(x = explicit+((subject_id-10)/100), score)) + geom_point()
+ggplot(data = data, aes(x = character+((subject_id-10)/100), score)) + geom_point()
+ggplot(data = data, aes(x = simultaneous+((subject_id-10)/100), score)) + geom_point()
+ggplot(data = data, aes(x = avoidance+((subject_id-10)/100), score)) + geom_point()
+ggplot(data = data, aes(x = fact_theory..0.1.2.+((subject_id-10)/100), score)) + geom_point()
+ggplot(data = data, aes(x = generation+((subject_id-10)/100), score)) + geom_point()
+ggplot(data = data, aes(x = means_motive..0.1.2.+((subject_id-10)/100), score)) + geom_point()
+ggplot(data = data, aes(x = reflection+((subject_id-10)/100), score)) + geom_point()
+ggplot(data = data, aes(x = final_confidence+((subject_id-10)/100), score)) + geom_point()
+ggplot(data = data, aes(x = broad+((subject_id-10)/100), score)) + geom_point()
+ggplot(data = data, aes(x = partial_evi+((subject_id-10)/100), score)) + geom_point()
+ggplot(data = data, aes(x = partial_id+((subject_id-10)/100), score)) + geom_point()
+ggplot(data = data, aes(x = complete+((subject_id-10)/100), score)) + geom_point()
+ggplot(data = data, aes(x = confidence.0.1.2.+((subject_id-10)/100), score)) + geom_point()
 ```
 
 
 ```{r}
-#+ geom_jitter(width=0.05,height=0.05)
-ggplot(data = expl_data, aes(x = timeline+((subject_id-10)/100), y = score)) + geom_point() 
-ggplot(data = expl_data, aes(x = note_drop+((subject_id-10)/100), score)) + geom_point()
-ggplot(data = expl_data, aes(x = rolling+((subject_id-10)/100), score)) + geom_point()
-ggplot(data = expl_data, aes(x = note_update+((subject_id-10)/100), score)) + geom_point()
-ggplot(data = expl_data, aes(x = accident..0.1.2.+((subject_id-10)/100), score)) + geom_point()
-ggplot(data = expl_data, aes(x = explicit+((subject_id-10)/100), score)) + geom_point()
-ggplot(data = expl_data, aes(x = character+((subject_id-10)/100), score)) + geom_point()
-ggplot(data = expl_data, aes(x = simultaneous+((subject_id-10)/100), score)) + geom_point()
-ggplot(data = expl_data, aes(x = avoidance+((subject_id-10)/100), score)) + geom_point()
-ggplot(data = expl_data, aes(x = fact_theory..0.1.2.+((subject_id-10)/100), score)) + geom_point()
-ggplot(data = expl_data, aes(x = generation+((subject_id-10)/100), score)) + geom_point()
-ggplot(data = expl_data, aes(x = means_motive..0.1.2.+((subject_id-10)/100), score)) + geom_point()
-ggplot(data = expl_data, aes(x = reflection+((subject_id-10)/100), score)) + geom_point()
-ggplot(data = expl_data, aes(x = final_confidence+((subject_id-10)/100), score)) + geom_point()
-ggplot(data = expl_data, aes(x = broad+((subject_id-10)/100), score)) + geom_point()
-ggplot(data = expl_data, aes(x = partial_evi+((subject_id-10)/100), score)) + geom_point()
-ggplot(data = expl_data, aes(x = partial_id+((subject_id-10)/100), score)) + geom_point()
-ggplot(data = expl_data, aes(x = complete+((subject_id-10)/100), score)) + geom_point()
-ggplot(data = expl_data, aes(x = confidence.0.1.2.+((subject_id-10)/100), score)) + geom_point()
-```
-
-```{r}
-cor.test(expl_data$score, expl_data$timeline, method = 'pearson')
-cor.test(expl_data$score, expl_data$note_drop, method = 'pearson')
-cor.test(expl_data$score, expl_data$rolling, method = 'pearson')
-cor.test(expl_data$score, expl_data$note_update, method = 'pearson')
-cor.test(expl_data$score, expl_data$accident..0.1.2., method = 'pearson')
-cor.test(expl_data$score, expl_data$explicit, method = 'pearson')
-cor.test(expl_data$score, expl_data$character, method = 'pearson')
-cor.test(expl_data$score, expl_data$simultaneous, method = 'pearson')
-cor.test(expl_data$score, expl_data$avoidance, method = 'pearson')
-cor.test(expl_data$score, expl_data$fact_theory, method = 'pearson')
-cor.test(expl_data$score, expl_data$generation, method = 'pearson')
-cor.test(expl_data$score, expl_data$means_motive, method = 'pearson')
-cor.test(expl_data$score, expl_data$reflection, method = 'pearson')
-cor.test(expl_data$score, expl_data$broad, method = 'pearson')
-cor.test(expl_data$score, expl_data$partial_evi, method = 'pearson')
-cor.test(expl_data$score, expl_data$partial_id, method = 'pearson')
-cor.test(expl_data$score, expl_data$complete, method = 'pearson')
-cor.test(expl_data$score, expl_data$confidence, method = 'pearson')
-```
-
-
-```{r}
-t.test(filter(expl_data, note_drop == 0)$score, filter(expl_data, note_drop == 1)$score)
-t.test(filter(expl_data, rolling == 0)$score, filter(expl_data, rolling == 1)$score)
-t.test(filter(expl_data, note_update == 0)$score, filter(expl_data, note_update == 1)$score)
-t.test(filter(expl_data, accident..0.1.2. == 0$score), filter(expl_data, accident..0.1.2. == 2)$score)
-t.test(filter(expl_data, explicit == 0)$score, filter(expl_data, explicit == 1)$score)
-t.test(filter(expl_data, character == 0), filter(expl_data, character == 1)$score)
-t.test(filter(expl_data, simultaneous == 0$score), filter(expl_data, simultaneous == 1)$score)
-t.test(filter(expl_data, avoidance == 0)$score, filter(expl_data, avoidance == 1)$score)
-t.test(filter(expl_data, fact_theory..0.1.2. == 0), filter(expl_data, fact_theory..0.1.2. == 2)$score)
-t.test(filter(expl_data, generation == 0)$score, filter(expl_data, generation == 1)$score)
-t.test(filter(expl_data, means_motive..0.1.2. == 0)$score, filter(expl_data, means_motive..0.1.2. == 2)$score)
-t.test(filter(expl_data, reflection == 0)$score, filter(expl_data, reflection == 1)$score)
-t.test(filter(expl_data, broad == 0)$score, filter(expl_data, broad == 1)$score)
-t.test(filter(expl_data, partial_evi == 0)$score, filter(expl_data, partial_evi == 1)$score)
-t.test(filter(expl_data$score, partial_id == 0)$score, filter(expl_data, partial_id == 1)$score)
-t.test(filter(expl_data, complete == 1)$score, filter(expl_data, complete == 0)$score)
-t.test(filter(expl_data, confidence == 0)$score, filter(expl_data, confidence == 1)$score)
-```
-
-
-```{r}
-
-expl_data$score <- c(0,1,0,1,0,2,1,0,2,0)
+t.test(filter(data, note_drop == 0)$score, filter(data, note_drop == 1)$score)
+t.test(filter(data, rolling == 0)$score, filter(data, rolling == 1)$score)
+t.test(filter(data, note_update == 0)$score, filter(data, note_update == 1)$score)
+t.test(filter(data, accident..0.1.2. == 0$score), filter(data, accident..0.1.2. == 2)$score)
+t.test(filter(data, explicit == 0)$score, filter(data, explicit == 1)$score)
+t.test(filter(data, character == 0), filter(data, character == 1)$score)
+t.test(filter(data, simultaneous == 0$score), filter(data, simultaneous == 1)$score)
+t.test(filter(data, avoidance == 0)$score, filter(data, avoidance == 1)$score)
+t.test(filter(data, fact_theory..0.1.2. == 0), filter(data, fact_theory..0.1.2. == 2)$score)
+t.test(filter(data, generation == 0)$score, filter(data, generation == 1)$score)
+t.test(filter(data, means_motive..0.1.2. == 0)$score, filter(data, means_motive..0.1.2. == 2)$score)
+t.test(filter(data, reflection == 0)$score, filter(data, reflection == 1)$score)
+t.test(filter(data, broad == 0)$score, filter(data, broad == 1)$score)
+t.test(filter(data, partial_evi == 0)$score, filter(data, partial_evi == 1)$score)
+t.test(filter(data$score, partial_id == 0)$score, filter(data, partial_id == 1)$score)
+t.test(filter(data, complete == 1)$score, filter(data, complete == 0)$score)
+t.test(filter(data, confidence == 0)$score, filter(data, confidence == 1)$score)
+cor.test(data$score, data$final_confidence, method = 'pearson')
 ```
