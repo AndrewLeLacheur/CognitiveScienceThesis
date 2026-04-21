@@ -35,7 +35,7 @@ H1: Early confidence in identity => low score
 ```{r}
 t.test(data_correct$max_early_theory, data_incorrect$max_early_theory)
 cor.test(data$max_early_theory, data$score, method = 'pearson')
-ggplot(data = data, aes(x = max_early_theory, score)) + geom_point()
+ggplot(data = data, aes(x = max_early_theory, score)) + geom_point() + ggtitle("       H1: Maximum Early Theory vs Score") + xlab("Maximum Early Theory Confidence") + ylab("Score")
 ```
 
 H2: Time & effort => high score
@@ -44,14 +44,14 @@ Time:
 ```{r}
 t.test(data_correct$minutes, data_incorrect$minutes)
 cor.test(data$minutes, data$score, method = 'pearson')
-ggplot(data = data, aes(x = minutes, score)) + geom_point()
+ggplot(data = data, aes(x = minutes, score)) + geom_point() + ggtitle("       H2A: Time vs Score") + xlab("Time (Minutes)") + ylab("Score")
 ```
 
 Word count:
 ```{r}
 t.test(data_correct$minutes, data_incorrect$minutes)
 cor.test(data$wordcount, data$score, method = 'pearson')
-ggplot(data = data, aes(x = wordcount, score)) + geom_point()
+ggplot(data = data, aes(x = wordcount, score)) + geom_point() + ggtitle("       H2B: Word Count vs Score") + xlab("Notes Word Count") + ylab("Score")
 ```
 
 H3: Ambiguity tolerance => lower max early theory => better performance
@@ -60,7 +60,7 @@ cor.test(data$uncertainty, data$max_early_theory, method = 'pearson')
 ggplot(data = data, aes(x = uncertainty, max_early_theory)) + geom_point()
 t.test(data_correct$uncertainty, data_incorrect$uncertainty)
 cor.test(data$uncertainty, data$score, method = 'pearson')
-ggplot(data = data, aes(x = uncertainty, score)) + geom_point()
+ggplot(data = data, aes(x = uncertainty, score)) + geom_point() + ggtitle("       H3B: Uncertainty Intolerance vs Score") + xlab("Uncertainty Intolerance") + ylab("Score")
 ```
 
 H4: Need for cognition => higher word count & time => better performance
@@ -72,7 +72,7 @@ cor.test(data$cognition, data$wordcount, method = 'pearson')
 ggplot(data = data, aes(x = cognition, wordcount)) + geom_point()
 t.test(data_correct$cognition, data_incorrect$score)
 cor.test(data$cognition, data$score, method = 'pearson')
-ggplot(data = data, aes(x = cognition, score)) + geom_point()
+ggplot(data = data, aes(x = cognition, score)) + geom_point() + ggtitle("       H4C: Need for Cognition vs Score") + xlab("Need for Cognition") + ylab("Score")
 ```
 
 
@@ -83,21 +83,21 @@ EXPLORATORY
 ggplot(data = data, aes(x = timeline+((subject_id-10)/100), y = score)) + geom_point() 
 ggplot(data = data, aes(x = note_drop+((subject_id-10)/100), score)) + geom_point()
 ggplot(data = data, aes(x = rolling+((subject_id-10)/100), score)) + geom_point()
-ggplot(data = data, aes(x = note_update+((subject_id-10)/100), score)) + geom_point()
+ggplot(data = data, aes(x = note_update+((subject_id-10)/100), score)) + geom_point() + ggtitle("       Note Updating") + xlab("Note Updating") + ylab("Score")
 ggplot(data = data, aes(x = accident..0.1.2.+((subject_id-10)/100), score)) + geom_point()
 ggplot(data = data, aes(x = explicit+((subject_id-10)/100), score)) + geom_point()
 ggplot(data = data, aes(x = character+((subject_id-10)/100), score)) + geom_point()
-ggplot(data = data, aes(x = simultaneous+((subject_id-10)/100), score)) + geom_point()
+ggplot(data = data, aes(x = simultaneous+((subject_id-10)/100), score)) + geom_point() + ggtitle("       Concurrent Theory Generation") + xlab("Concurrent Theory Generation") + ylab("Score")
 ggplot(data = data, aes(x = avoidance+((subject_id-10)/100), score)) + geom_point()
-ggplot(data = data, aes(x = fact_theory..0.1.2.+((subject_id-10)/100), score)) + geom_point()
-ggplot(data = data, aes(x = generation+((subject_id-10)/100), score)) + geom_point()
-ggplot(data = data, aes(x = means_motive..0.1.2.+((subject_id-10)/100), score)) + geom_point()
+ggplot(data = data, aes(x = fact_theory..0.1.2.+((subject_id-10)/100), score)) + geom_point() + ggtitle("       Fact-based vs Theory-based Note Taking") + xlab("Fact-based (0) vs Theory-based (2) Note Taking") + ylab("Score")
+ggplot(data = data, aes(x = generation+((subject_id-10)/100), score)) + geom_point() + ggtitle("       High Volume Theory Generation") + xlab("Theory Generation") + ylab("Score")
+ggplot(data = data, aes(x = means_motive..0.1.2.+((subject_id-10)/100), score)) + geom_point() + ggtitle("       Attention to Means vs Motive") + xlab("Attention to Means (0) vs Motive (2)") + ylab("Score")
 ggplot(data = data, aes(x = reflection+((subject_id-10)/100), score)) + geom_point()
 ggplot(data = data, aes(x = final_confidence+((subject_id-10)/100), score)) + geom_point()
 ggplot(data = data, aes(x = broad+((subject_id-10)/100), score)) + geom_point()
 ggplot(data = data, aes(x = partial_evi+((subject_id-10)/100), score)) + geom_point()
 ggplot(data = data, aes(x = partial_id+((subject_id-10)/100), score)) + geom_point()
-ggplot(data = data, aes(x = complete+((subject_id-10)/100), score)) + geom_point()
+ggplot(data = data, aes(x = complete+((subject_id-10)/100), score)) + geom_point() + ggtitle("       Complete Theory Generation") + xlab("Complete Theory Generation") + ylab("Score")
 ggplot(data = data, aes(x = confidence.0.1.2.+((subject_id-10)/100), score)) + geom_point()
 ```
 
