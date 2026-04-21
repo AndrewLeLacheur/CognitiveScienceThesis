@@ -250,7 +250,7 @@ function set_jdata(x) {
     game.run();
 }
 function fetchJSONData() {
-    fetch('../analysis/data/datafile_1.json')
+    fetch('../analysis/data/datafile_4.json')
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
