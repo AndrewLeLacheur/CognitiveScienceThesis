@@ -1,6 +1,6 @@
 # CognitiveScienceThesis
 
-Analysis: Contains the r script used to analyze the data, and the csvs with the relevant quantitative data.
+Analysis: Contains the r script used to analyze the data, and the .csv files with the relevant quantitative data.
 
 Experiment: Contains the code used to run the experiment. Can be viewed at: https://andrewlelacheur.github.io/CognitiveScienceThesis/Experiment/
 
